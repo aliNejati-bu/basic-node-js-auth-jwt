@@ -1,0 +1,5 @@
+{
+  "server": "localhost",
+  "port": 3232,
+  "db_url": "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
+}
