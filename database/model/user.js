@@ -2,8 +2,18 @@ const mongoose = require("mongoose");
 const Joi = require("joi")
 
 module.exports = mongoose.model("user",mongoose.Schema({
-    username:String,
-    email:String,
+    username:{
+        type:String,
+        required:true,
+        unique:true,
+        index:true
+    },
+    email:{
+        type:String,
+        required:true,
+        unique:true,
+        index:true
+    },
     password:String,
     roles:[String]
 }));
