@@ -28,5 +28,13 @@ module.exports.insertValidator = INPUT =>{
     return schema.validate(INPUT);
 };
 
+module.exports.authValidator = INPUT => {
+    const schema = Joi.object({
+        email:Joi.string().min(5).max(255).required(),
+        password:Joi.string().min(8).max(255).required(),
+    });
+
+    return schema.validate(INPUT);
+};
 
 
