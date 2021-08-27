@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const fullUserMiddleware = require("./../middlewares/fullUser");
+const userOnly = require("./../middlewares/onlyUser");
 
 const route = express.Router();
 
@@ -70,5 +71,10 @@ route.post("/addRoll", fullUserMiddleware,async (req, res) => {
     }
     return res.send(user);
 });
+
+route.get("/me",userOnly,(req, res) => {
+    return res.send(req.user);
+});
+
 
 module.exports = route;
