@@ -3,7 +3,7 @@ const userModel = require("./../database/model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-
+const fullUserMiddleware = require("./../middlewares/fullUser");
 
 const route = express.Router();
 
@@ -52,8 +52,23 @@ route.post("/auth", async (req, res) => {
         roll: user.roles
     }, secretKey);
 
-    return res.set({"X-Auth-Token":jwtToken}).send({status:true,jwtToken});
+    return res.set({"X-Auth-Token": jwtToken}).send({status: true, jwtToken});
 
+});
+
+
+route.post("/addRoll", fullUserMiddleware,async (req, res) => {
+    const validateData = userModel.addRollValidator(req.body);
+    if (validateData.error) {
+        return res.status(400).send(validateData.error.details);
+    }
+
+
+    let user = await userModel.findOneAndUpdate({email:validateData.value.email},{$push:{roles:validateData.value.roll}},{new:1});
+    if (!user){
+        return res.status(400).send("user not found.");
+    }
+    return res.send(user);
 });
 
 module.exports = route;
